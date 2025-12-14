@@ -1,6 +1,7 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from datetime import datetime
+import redis
 import json
 
 from models import Message, MessagesResponse
@@ -14,7 +15,7 @@ app = FastAPI(
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["http://localhost:3000"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -55,8 +56,8 @@ async def get_messages():
         raise HTTPException(status_code=500, detail=str(error))
 
 
-@app.post("/api/send_message")
-async def send_message(message: Message):
+@app.post("/api/messages")
+async def create_message(message: Message):
     """Эндпонт создания нового сообщения"""
     try:
         if not message.timestamp:
