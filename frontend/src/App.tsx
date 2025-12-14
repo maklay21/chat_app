@@ -58,7 +58,7 @@ const App: React.FC = () => {
       setMessages(prev => [...prev, newMessage]);
       setInputText('');
 
-      await axios.post(`${API_BASE_URL}/api/messages`, newMessage);
+      await axios.post(`${API_BASE_URL}/api/send_message`, newMessage);
       
       // Обновление списка сообщений с сервера
       await fetchMessages();
