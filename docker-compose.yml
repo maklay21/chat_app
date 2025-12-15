@@ -1,0 +1,63 @@
+services:
+  redis:
+    image: redis:7-alpine
+    container_name: chat-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    command: redis-server --appendonly yes
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    networks:
+      - chat-network
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.app
+    container_name: chat-backend
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    environment:
+      - PROJECT_NAME=${PROJECT_NAME}
+      - ENVIRONMENT=${ENVIRONMENT}
+      - WORKERS=${WORKERS}
+      - REDIS_HOST=${REDIS_HOST}
+      - REDIS_PORT=${REDIS_PORT}
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+    volumes:
+      - ./backend:/app
+    depends_on:
+      - redis
+    networks:
+      - chat-network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.react
+    container_name: chat-frontend
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+    environment:
+      - REACT_APP_API_URL=${REACT_APP_API_URL}
+    depends_on:
+      - backend
+    networks:
+      - chat-network
+
+networks:
+  chat-network:
+    driver: bridge
+
+volumes:
+  redis_data:
+    driver: local
