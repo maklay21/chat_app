@@ -8,7 +8,7 @@ interface Message {
   timestamp: string;
 }
 
-const API_BASE_URL = 'http://localhost:8000';
+const API_BASE_URL = process.env.REACT_APP_API_URL;
 
 const App: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([]);
@@ -29,7 +29,7 @@ const App: React.FC = () => {
   const fetchMessages = async () => {
     try {
       setIsLoading(true);
-      const response = await axios.get(`${API_BASE_URL}/api/messages`);
+      const response = await axios.get(`${API_BASE_URL}/messages`);
       
       // Реверс сообщений из редис
       const reversedMessages = [...response.data.messages].reverse();
@@ -58,9 +58,9 @@ const App: React.FC = () => {
       setMessages(prev => [...prev, newMessage]);
       setInputText('');
 
-      await axios.post(`${API_BASE_URL}/api/send_message`, newMessage);
+      await axios.post(`${API_BASE_URL}/messages/send_message`, newMessage);
       
-      // Обновление списка сообщений с сервера
+      // Обновление списка сообщений
       await fetchMessages();
     } catch (error) {
       console.error('Error sending message:', error);

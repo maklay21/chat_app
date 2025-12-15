@@ -9,6 +9,7 @@ class Settings(BaseSettings):
         env_ignore_empty=True,
         extra="ignore",
     )
+    API_STR: str = "/api/v1"
     PROJECT_NAME: str
     ENVIRONMENT: Literal["local", "production"] = "local"
     
