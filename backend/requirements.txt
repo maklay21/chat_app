@@ -1,6 +1,7 @@
 fastapi==0.115.13
 redis==5.0.1
 fastapi[standard]
+uvicorn
 pydantic==2.11.7
 python-dotenv==1.0.0
 pydantic-settings==2.10.1

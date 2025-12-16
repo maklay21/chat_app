@@ -7,7 +7,6 @@ from models import Message, MessagesResponse
 from config.settings import settings
 from redis_db import redis_client
 
-
 router = APIRouter(prefix="/messages", tags=["messages"])
 REDIS_CHAT_KEY = "chat:messages"
 

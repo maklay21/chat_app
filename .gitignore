@@ -1,8 +1,10 @@
 venv/
 backend/__pycache__
-backend/logs/
+backend/logs/*
 backend/config/__pycache__
 backend/api/__pycache__
 backend/api/routes/__pycache__
 frontend/node_modules
 frontend/package-lock.json
+frontend/.netlify
+frontend/build
