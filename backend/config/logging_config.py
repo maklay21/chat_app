@@ -16,7 +16,7 @@ LOGGING = {
         'main_file_handler': {
             'class': 'logging.handlers.RotatingFileHandler',
             'formatter': 'default_formatter',
-            'filename': 'logs/api_chat.log',
+            'filename': '/app/logs/api_chat.log',
             'maxBytes': 1048576,
             'backupCount': 5
         }
